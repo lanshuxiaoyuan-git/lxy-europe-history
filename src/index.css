@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-parchment: #faf6f0;
+  --color-parchment-dark: #1a1a2e;
+  --color-gold: #c9a84c;
+  --color-empire: #8b0000;
+  --color-byzantine: #9b30ff;
+  --color-roman: #b22222;
+  --color-greek: #0d47a1;
+  --color-frankish: #00695c;
+  --color-british: #c62828;
+  --color-french: #1565c0;
+  --color-holy-roman: #ff8f00;
+  --color-spanish: #ad1457;
+  --color-portuguese: #004d40;
+  --color-dutch: #e65100;
+  --color-italian: #2e7d32;
+  --color-china: #b71c1c;
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', 'Noto Serif SC', serif;
+  background: var(--color-parchment);
+  color: #2c1810;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  background: #e8e0d0 !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f0ebe4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4a97d;
+  border-radius: 3px;
+}
+
+/* Timeline styles */
+.timeline-dot {
+  @apply w-3 h-3 rounded-full border-2 border-gold bg-parchment transition-all;
+}
+.timeline-dot.active {
+  @apply bg-gold scale-150;
+}
