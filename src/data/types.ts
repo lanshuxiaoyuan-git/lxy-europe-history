@@ -19,6 +19,7 @@ export interface Ruler {
   summary: string;
   portraitImage?: string;   // 画像 URL
   portraitSource?: string;  // 画像来源
+  portraitLabel?: string;   // 画作标注（如"画中骑马者"）
 }
 
 export interface HistoryEvent {
@@ -47,6 +48,12 @@ export interface TerritoryEvolutionStage {
   mapSource?: string;  // 图片来源标注
 }
 
+export interface EthnicOrigin {
+  group: string;       // 民族大类，如 "日耳曼人 (Germanic)"
+  detail: string;      // 具体分支，如 "盎格鲁-撒克逊人"
+  description: string; // 简要说明
+}
+
 export interface Country {
   id: string;
   name: string;
@@ -63,6 +70,7 @@ export interface Country {
   }[];
   territoryEvolution: TerritoryEvolutionStage[];
   keyRulers?: Ruler[];
+  ethnicOrigins?: EthnicOrigin[];  // 民族渊源
 }
 
 export interface Empire {
@@ -83,6 +91,9 @@ export interface Empire {
     nameZh: string;
     years: string;
     summary: string;
+    portraitImage?: string;   // 画作/雕像 URL
+    portraitSource?: string;  // 画像来源
+    portraitLabel?: string;   // 画作标注（如"画中骑马者"）
   }[];
   expansion: {
     year: number;
@@ -96,13 +107,15 @@ export interface Empire {
 export interface GeoJsonFeature {
   type: 'Feature';
   properties: {
-    name: string;
+    name: string;         // key 格式，用于匹配 (如 "roman-117", "france-1789")
     year: number;
     region: Region;
+    displayName: string;  // 显示名称 (如 "罗马帝国", "法兰西(现代)")
+    category: 'empire' | 'country';
   };
   geometry: {
     type: 'Polygon' | 'MultiPolygon';
-    coordinates: number[][][];
+    coordinates: number[][][] | number[][][][];
   };
 }
 

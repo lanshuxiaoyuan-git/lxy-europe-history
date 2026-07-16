@@ -167,62 +167,111 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseUp}
       >
-        <div className="relative min-w-max px-8 py-8">
-          {/* Main timeline line */}
-          <div className="absolute left-8 right-8 top-[calc(50%+2rem)] h-1 bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 rounded-full" />
+        <div className="relative min-w-max px-8 pb-8">
+          {/* 时间线：绝对定位在所有圆点后面 */}
+          <div className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 rounded-full"
+               style={{ top: '7.125rem' }} />
 
-          <div className="flex gap-16">
-            {centuries.map((century, _ci) => (
-              <div key={century} className="relative" style={{ minWidth: '200px' }}>
-                {/* Century label */}
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
-                  {century < 0 ? `${Math.abs(century)}s BC` : `${century}s AD`}
-                </div>
+          <div className="flex gap-12">
+            {centuries.map((century) => {
+              const centuryEvents = eventsByCentury[century] || [];
+              // 两两配对：上方卡片 + 下方卡片共享一个圆点
+              const pairs: HistoryEvent[][] = [];
+              for (let i = 0; i < centuryEvents.length; i += 2) {
+                pairs.push(centuryEvents.slice(i, i + 2));
+              }
 
-                {/* Events */}
-                <div className="flex flex-col items-center gap-6">
-                  {eventsByCentury[century]?.map((event, ei) => (
-                    <motion.button
-                      key={event.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: ei * 0.05 }}
-                      viewport={{ once: true }}
-                      onClick={() => {
-                        setSelectedEvent(event);
-                        onEventClick?.(event);
-                      }}
-                      className={`group relative w-48 cursor-pointer ${
-                        ei % 2 === 0 ? '-translate-y-16' : 'translate-y-16'
-                      }`}
-                    >
-                      <div
-                        className={`p-3 rounded-lg border transition-all duration-200 hover:shadow-md ${
-                          selectedEvent?.id === event.id
-                            ? 'border-amber-400 bg-amber-50 shadow-md'
-                            : 'border-stone-200 bg-white hover:border-amber-300'
-                        } ${highlightedEvents?.includes(event.id) ? 'ring-2 ring-amber-400' : ''}`}
-                      >
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColor(event.category)}`} />
-                          <span className="text-[11px] text-stone-400">{formatYear(event.year)}</span>
+              return (
+                <div key={century} className="flex flex-col items-center" style={{ minWidth: '200px' }}>
+                  <div className="flex flex-col items-center">
+                    {pairs.map((pair, pi) => (
+                      <div key={pi} className="flex flex-col items-center">
+                        {/* 上方卡片区域 — 固定高度，卡片靠底部对齐 */}
+                        <div className="h-24 flex items-end justify-center">
+                          <motion.button
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: pi * 0.05 }}
+                            viewport={{ once: true }}
+                            onClick={() => {
+                              setSelectedEvent(pair[0]);
+                              onEventClick?.(pair[0]);
+                            }}
+                            className={`group relative w-44 cursor-pointer ${
+                              highlightedEvents?.includes(pair[0].id) ? 'ring-2 ring-amber-400 rounded-lg' : ''
+                            }`}
+                          >
+                            <div className={`p-2.5 rounded-lg border transition-all duration-200 hover:shadow-md ${
+                              selectedEvent?.id === pair[0].id
+                                ? 'border-amber-400 bg-amber-50 shadow-md'
+                                : 'border-stone-200 bg-white hover:border-amber-300'
+                            }`}>
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColor(pair[0].category)}`} />
+                                <span className="text-[10px] text-stone-400">{formatYear(pair[0].year)}</span>
+                              </div>
+                              <p className="text-xs font-bold text-stone-800 leading-tight line-clamp-1">{pair[0].titleZh}</p>
+                            </div>
+                          </motion.button>
                         </div>
-                        <p className="text-xs font-bold text-stone-800 leading-tight">{event.titleZh}</p>
-                        <p className="text-[10px] text-stone-400 mt-0.5 line-clamp-2">{event.description}</p>
+
+                        {/* 连接线 上 */}
+                        <div className="w-0.5 h-3 bg-amber-300/60" />
+
+                        {/* 圆点 — 时间线穿过此处 */}
+                        <div className={`w-3 h-3 rounded-full border-2 bg-white z-10 transition-colors shrink-0 ${
+                          selectedEvent?.id === pair[0].id || (pair[1] && selectedEvent?.id === pair[1].id)
+                            ? 'border-amber-500 bg-amber-500 scale-125'
+                            : 'border-amber-400'
+                        }`} />
+
+                        {/* 连接线 下 + 下方卡片区域 */}
+                        <div className="w-0.5 h-3 bg-amber-300/60" />
+
+                        {/* 下方卡片区域 — 固定高度 */}
+                        <div className="h-24 flex items-start justify-center">
+                          {pair[1] ? (
+                            <motion.button
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ delay: pi * 0.05 + 0.03 }}
+                              viewport={{ once: true }}
+                              onClick={() => {
+                                setSelectedEvent(pair[1]);
+                                onEventClick?.(pair[1]);
+                              }}
+                              className={`group relative w-44 cursor-pointer ${
+                                highlightedEvents?.includes(pair[1].id) ? 'ring-2 ring-amber-400 rounded-lg' : ''
+                              }`}
+                            >
+                              <div className={`p-2.5 rounded-lg border transition-all duration-200 hover:shadow-md ${
+                                selectedEvent?.id === pair[1].id
+                                  ? 'border-amber-400 bg-amber-50 shadow-md'
+                                  : 'border-stone-200 bg-white hover:border-amber-300'
+                              }`}>
+                                <div className="flex items-center gap-1.5 mb-0.5">
+                                  <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColor(pair[1].category)}`} />
+                                  <span className="text-[10px] text-stone-400">{formatYear(pair[1].year)}</span>
+                                </div>
+                                <p className="text-xs font-bold text-stone-800 leading-tight line-clamp-1">{pair[1].titleZh}</p>
+                              </div>
+                            </motion.button>
+                          ) : null}
+                        </div>
+
+                        {/* 对之间的间距 */}
+                        {pi < pairs.length - 1 && <div className="h-4" />}
                       </div>
-                      {/* Connector dot */}
-                      <div
-                        className={`absolute ${
-                          ei % 2 === 0 ? 'bottom-[-28px]' : 'top-[-28px]'
-                        } left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border-2 border-amber-500 bg-parchment group-hover:bg-amber-500 transition-colors ${
-                          selectedEvent?.id === event.id ? 'bg-amber-500 scale-125' : ''
-                        }`}
-                      />
-                    </motion.button>
-                  ))}
+                    ))}
+                  </div>
+
+                  {/* 世纪标签 — 在时间线下方 */}
+                  <div className="text-xs font-bold text-amber-700 bg-amber-50/80 px-2 py-0.5 rounded-full border border-amber-200 mt-6">
+                    {century < 0 ? `${Math.abs(century)}s BC` : `${century}s AD`}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

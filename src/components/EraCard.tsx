@@ -19,7 +19,7 @@ export default function EraCard({ era, index }: EraCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      onClick={() => navigate(`/map?era=${era.id}`)}
+      onClick={() => navigate(`/era/${era.id}`)}
       className="group cursor-pointer bg-white rounded-xl border border-amber-200/50 shadow-sm hover:shadow-lg hover:border-amber-300 transition-all duration-300 overflow-hidden"
     >
       {/* Color bar */}

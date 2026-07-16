@@ -77,21 +77,28 @@ export default function Home() {
       </div>
 
       {/* Quick links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
         {[
           {
             title: '帝国兴衰',
-            desc: '亚历山大大帝、罗马帝国、查理曼帝国 — 了解大帝国的兴起与崩溃',
+            desc: '七大帝国存续时间对比 · 征服历程与版图演变',
             icon: '👑',
-            path: '/map',
+            path: '/empires',
             color: 'from-red-50 to-amber-50 border-red-200',
           },
           {
             title: '国家形成',
-            desc: '英法德意西葡萄等西欧国家的形成历程与领土演变',
+            desc: '21 个西欧国家的形成过程 · 领土演变与关键里程碑',
             icon: '🗺️',
-            path: '/map',
+            path: '/countries',
             color: 'from-blue-50 to-cyan-50 border-blue-200',
+          },
+          {
+            title: '民族谱系',
+            desc: '日耳曼、凯尔特、拉丁 — 西欧人的古老血脉与分支演化',
+            icon: '🧬',
+            path: '/ethnic-genealogy',
+            color: 'from-green-50 to-emerald-50 border-green-200',
           },
           {
             title: '中西对照',

@@ -138,7 +138,7 @@ export const events: HistoryEvent[] = [
     relatedCountries: ['italy'],
     relatedEmpires: ['roman-empire'],
     tags: ['christianity', 'religion', 'rome'],
-    detailDescription: '公元313年，西罗马皇帝君士坦丁一世与东罗马皇帝李锡尼在米兰达成协议，宣布基督教在帝国境内合法化，归还被没收的教会财产。从此，基督教从被迫害的地下宗教转变为帝国认可的合法信仰。君士坦丁后来还召开了尼西亚公会议，奠定了基督教正统教义的基础。',
+    detailDescription: '公元313年，统治帝国西部的君士坦丁一世与统治东部的李锡尼在米兰达成协议，宣布基督教在帝国境内合法化，归还被没收的教会财产。从此，基督教从被迫害的地下宗教转变为帝国认可的合法信仰。君士坦丁后来还召开了尼西亚公会议，奠定了基督教正统教义的基础。',
   },
   {
     id: 'ev-010',
@@ -216,7 +216,7 @@ export const events: HistoryEvent[] = [
     tags: ['charlemagne', 'empire', 'coronation'],
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/03/Albrecht_D%C3%BCrer_-_Emperor_Charlemagne_-_WGA6955.jpg',
     imageSource: 'Wikimedia Commons',
-    detailDescription: '公元800年圣诞节，教皇利奥三世在罗马圣彼得大教堂突然为查理曼加冕，称他为"罗马人的皇帝"。这一举动既恢复了西罗马帝国的法统，又标志着西欧出现了一个与东罗马帝国比肩的基督教帝国。查理曼帝国成为了查理曼帝国巅峰的象征，也被后人视为"欧洲之父"。',
+    detailDescription: '公元800年圣诞节，教皇利奥三世在罗马圣彼得大教堂突然为查理曼加冕，称他为"罗马人的皇帝"。这一举动既恢复了西罗马帝国的法统，又标志着西欧出现了一个与东罗马帝国比肩的基督教帝国。这一加冕标志着查理曼帝国达到鼎盛，查理曼本人也被后人尊为"欧洲之父"。',
   },
   {
     id: 'ev-015',
@@ -526,7 +526,7 @@ export const events: HistoryEvent[] = [
     tags: ['ww2', 'war', 'world-war'],
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/06/Danzig_Polish_Post_Office_Defenders_Monument.jpg',
     imageSource: 'Wikimedia Commons',
-    detailDescription: '1939年9月1日凌晨，纳粹德国在没有宣战的情况下入侵波兰。两天后，英法对德宣战，第二次世界大战的欧洲战场正式开启。这场人类历史上规模最大的战争波及61个国家，造成约7000万至8500万人死亡，彻底重塑了全球政治格局。',
+    detailDescription: '1939年9月1日凌晨，纳粹德国在没有宣战的情况下入侵波兰。两天后，英法对德宣战，第二次世界大战的欧洲战场正式开启。这场人类历史上规模最大的战争波及61个国家，造成约5000万至7000万人死亡（部分研究估计高达8500万），彻底重塑了全球政治格局。',
   },
   {
     id: 'ev-035',

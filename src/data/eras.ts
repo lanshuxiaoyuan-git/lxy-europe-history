@@ -42,7 +42,7 @@ export const eras: Era[] = [
     startYear: 1000,
     endYear: 1300,
     summary: '封建制度达到顶峰，十字军东征，英法王权巩固，大学和经院哲学兴起。',
-    keyEvents: ['诺曼征服', '十字军东征', '大宪章签署', '巴黎大学建立'],
+    keyEvents: ['诺曼征服', '十字军东征', '大宪章签署', '博洛尼亚大学建立（约1088年）'],
     color: '#c62828',
   },
   {
@@ -70,7 +70,7 @@ export const eras: Era[] = [
   {
     id: 'modern-era',
     name: 'Modern Era',
-    nameZh: '近代时期',
+    nameZh: '19世纪时期（拿破仑至一战前）',
     region: 'western-europe',
     startYear: 1800,
     endYear: 1914,

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useCountry, formatYear, useEvents } from '../hooks/useHistory';
 import Timeline from '../components/Timeline';
-import ImageTerritoryEvolution from '../components/ImageTerritoryEvolution';
+import TerritoryEvolution from '../components/TerritoryEvolution';
 import type { Ruler } from '../data/types';
 
 function RulerCard({ ruler, index }: { ruler: Ruler; index: number }) {
@@ -45,6 +45,11 @@ function RulerCard({ ruler, index }: { ruler: Ruler; index: number }) {
             {ruler.portraitSource}
           </span>
         )}
+        {ruler.portraitLabel && imgLoaded && (
+          <span className="absolute top-1 left-1 text-[9px] text-white bg-amber-600/80 px-1.5 py-0.5 rounded font-medium">
+            {ruler.portraitLabel}
+          </span>
+        )}
       </div>
       {/* Info */}
       <div className="p-3">
@@ -69,8 +74,8 @@ export default function CountryDetail() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
         <p className="text-xl text-stone-500">国家未找到</p>
-        <button onClick={() => navigate('/map')} className="mt-4 text-amber-600 hover:underline">
-          返回地图 →
+        <button onClick={() => navigate('/countries')} className="mt-4 text-amber-600 hover:underline">
+          返回国家汇总 →
         </button>
       </div>
     );
@@ -83,10 +88,10 @@ export default function CountryDetail() {
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Back button */}
       <button
-        onClick={() => navigate('/map')}
+        onClick={() => navigate('/countries')}
         className="flex items-center gap-2 text-stone-500 hover:text-amber-700 transition-colors mb-6"
       >
-        ← 返回地图
+        ← 返回国家汇总
       </button>
 
       {/* Header */}
@@ -123,6 +128,44 @@ export default function CountryDetail() {
         <p className="text-stone-600 leading-relaxed">{country.summary}</p>
       </motion.div>
 
+      {/* Ethnic Origins */}
+      {country.ethnicOrigins && country.ethnicOrigins.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.13 }}
+          className="bg-white rounded-xl border border-stone-200 shadow-md p-6 mb-8"
+        >
+          <h2 className="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2">
+            <span>🧬</span> 民族渊源
+          </h2>
+          <div className="space-y-4">
+            {country.ethnicOrigins.map((origin, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className={`
+                  shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold
+                  ${i === 0 ? 'bg-amber-100 text-amber-700' : ''}
+                  ${i === 1 ? 'bg-blue-100 text-blue-700' : ''}
+                  ${i === 2 ? 'bg-green-100 text-green-700' : ''}
+                  ${i >= 3 ? 'bg-purple-100 text-purple-700' : ''}
+                `}>
+                  {i + 1}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-2 py-0.5 bg-stone-100 text-stone-600 text-[10px] rounded-full font-medium">
+                      {origin.group}
+                    </span>
+                    <span className="text-sm font-bold text-stone-700">{origin.detail}</span>
+                  </div>
+                  <p className="text-sm text-stone-500 leading-relaxed">{origin.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       {/* Territory Evolution — Textbook Maps */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -130,9 +173,10 @@ export default function CountryDetail() {
         transition={{ delay: 0.15 }}
         className="mb-8"
       >
-        <ImageTerritoryEvolution
+        <TerritoryEvolution
           name={country.nameZh}
           territoryEvolution={country.territoryEvolution}
+          coordinates={country.coordinates}
         />
       </motion.div>
 

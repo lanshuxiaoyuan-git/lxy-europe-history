@@ -39,6 +39,25 @@ body {
   background: #e8e0d0 !important;
 }
 
+/* Smooth opacity transitions for historical GeoJSON layers */
+.leaflet-interactive {
+  transition: fill-opacity 0.4s ease, stroke-opacity 0.4s ease, stroke-width 0.3s ease;
+}
+
+/* Modern border tooltip styling */
+.modern-border-tooltip {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  font-size: 10px !important;
+  color: #6b7280 !important;
+  box-shadow: none !important;
+  padding: 2px 6px !important;
+}
+.modern-border-tooltip::before {
+  display: none !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

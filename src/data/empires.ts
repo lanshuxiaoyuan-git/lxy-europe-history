@@ -15,8 +15,8 @@ export const empires: Empire[] = [
     predecessor: '希腊城邦联盟',
     successor: ['塞琉古帝国', '托勒密王国', '安提柯王朝'],
     keyEmperors: [
-      { name: 'Alexander III (the Great)', nameZh: '亚历山大三世（大帝）', years: '前336-前323', summary: '征服波斯帝国，建立横跨欧亚非的帝国' },
-      { name: 'Philip II', nameZh: '腓力二世', years: '前359-前336', summary: '统一希腊各城邦，奠定帝国基础' },
+      { name: 'Alexander III (the Great)', nameZh: '亚历山大三世（大帝）', years: '前336-前323', summary: '征服波斯帝国，建立横跨欧亚非的帝国', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/4/49/Alexander_Mosaic_detail_of_Alexander_the_Great_%283x4_cropped%29.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Philip II', nameZh: '腓力二世', years: '前359-前336', summary: '统一希腊各城邦，为亚历山大帝国奠定基础', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Phillip_II%2C_king_of_Macedonia%2C_Roman_copy_of_Greek_original%2C_Ny_Carlsberg_Glyptotek%2C_Copenhagen_%2836420294055%29.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: -336, event: 'Alexander becomes king', eventZh: '亚历山大即位' },
@@ -46,11 +46,11 @@ export const empires: Empire[] = [
     predecessor: '罗马共和国',
     successor: ['西罗马帝国', '拜占庭帝国'],
     keyEmperors: [
-      { name: 'Augustus', nameZh: '奥古斯都', years: '前27-14', summary: '罗马帝国缔造者，开启"罗马和平"时代' },
-      { name: 'Trajan', nameZh: '图拉真', years: '98-117', summary: '帝国版图达到最大' },
-      { name: 'Hadrian', nameZh: '哈德良', years: '117-138', summary: '修建哈德良长城，巩固边界' },
-      { name: 'Constantine I', nameZh: '君士坦丁一世', years: '306-337', summary: '承认基督教合法，迁都君士坦丁堡' },
-      { name: 'Theodosius I', nameZh: '狄奥多西一世', years: '379-395', summary: '最后一位统一罗马帝国的皇帝' },
+      { name: 'Augustus', nameZh: '奥古斯都', years: '前27-14', summary: '罗马帝国缔造者，开启"罗马和平"时代', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Augustus_of_Prima_Porta.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Trajan', nameZh: '图拉真', years: '98-117', summary: '帝国版图达到最大', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Traianus_Glyptothek_Munich_336.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Hadrian', nameZh: '哈德良', years: '117-138', summary: '修建哈德良长城，巩固边界', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/M%C3%BCnchen_SMAEK_2019-03-23n.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Constantine I', nameZh: '君士坦丁一世', years: '306-337', summary: '承认基督教合法，迁都君士坦丁堡', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Statua_di_Costantino_ai_musei_capitolini.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Theodosius I', nameZh: '狄奥多西一世', years: '379-395', summary: '最后一位统一罗马帝国的皇帝', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Bust_of_Theodosius_I.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: -27, event: 'Augustus becomes first Emperor', eventZh: '奥古斯都成为首位皇帝' },
@@ -93,9 +93,9 @@ export const empires: Empire[] = [
     predecessor: '罗马帝国',
     successor: ['奥斯曼帝国'],
     keyEmperors: [
-      { name: 'Justinian I', nameZh: '查士丁尼一世', years: '527-565', summary: '编纂罗马法，收复地中海部分领土' },
-      { name: 'Basil II', nameZh: '巴西尔二世', years: '976-1025', summary: '"保加利亚屠夫"，帝国再度强盛' },
-      { name: 'Constantine XI', nameZh: '君士坦丁十一世', years: '1449-1453', summary: '最后一位皇帝，战死于君士坦丁堡' },
+      { name: 'Justinian I', nameZh: '查士丁尼一世', years: '527-565', summary: '编纂罗马法，收复地中海部分领土', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Mosaic_of_Justinianus_I_-_Basilica_San_Vitale_%28Ravenna%29.jpg', portraitSource: 'Wikimedia Commons', portraitLabel: '画中中央穿紫袍者' },
+      { name: 'Basil II', nameZh: '巴西尔二世', years: '976-1025', summary: '"保加利亚屠夫"，帝国再度强盛', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/d/dc/Basilios_II.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Constantine XI', nameZh: '君士坦丁十一世', years: '1449-1453', summary: '最后一位皇帝，战死于君士坦丁堡', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Konstantinos_XI_Palaiologos_fresco_%28less_edited%29.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: 395, event: 'Eastern Roman Empire established', eventZh: '东罗马帝国正式建立' },
@@ -135,8 +135,8 @@ export const empires: Empire[] = [
     predecessor: '法兰克王国',
     successor: ['西法兰克王国', '东法兰克王国', '中法兰克王国'],
     keyEmperors: [
-      { name: 'Charlemagne', nameZh: '查理曼', years: '768-814', summary: '统一西欧大部，被加冕为罗马人的皇帝' },
-      { name: 'Louis the Pious', nameZh: '虔诚者路易', years: '814-840', summary: '继承帝国，但未能维持统一' },
+      { name: 'Charlemagne', nameZh: '查理曼', years: '768-814', summary: '统一西欧大部，被加冕为罗马人的皇帝', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Charlemagne_denier_Mayence_812_814.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Louis the Pious', nameZh: '虔诚者路易', years: '814-840', summary: '继承帝国，但未能维持统一', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Ludwik_I_Pobo%C5%BCny.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: 768, event: 'Charlemagne becomes King of the Franks', eventZh: '查理曼成为法兰克国王' },
@@ -168,10 +168,10 @@ export const empires: Empire[] = [
     predecessor: '东法兰克王国',
     successor: ['德意志邦联'],
     keyEmperors: [
-      { name: 'Otto I', nameZh: '奥托一世', years: '962-973', summary: '神圣罗马帝国奠基人' },
-      { name: 'Frederick I (Barbarossa)', nameZh: '腓特烈一世（红胡子）', years: '1155-1190', summary: '试图加强皇权，与教皇争锋' },
-      { name: 'Charles V', nameZh: '查理五世', years: '1519-1556', summary: '统治欧洲最大疆域，面临宗教改革' },
-      { name: 'Francis II', nameZh: '弗朗茨二世', years: '1792-1806', summary: '最后一位皇帝，迫于拿破仑压力退位' },
+      { name: 'Otto I', nameZh: '奥托一世', years: '962-973', summary: '神圣罗马帝国奠基人', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Siegel_Otto_I_Posse.JPG', portraitSource: 'Wikimedia Commons' },
+      { name: 'Frederick I (Barbarossa)', nameZh: '腓特烈一世（红胡子）', years: '1155-1190', summary: '试图加强皇权，与教皇争锋', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/3/34/Friedrich_I._Barbarossa.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Charles V', nameZh: '查理五世', years: '1519-1556', summary: '统治欧洲最大疆域，面临宗教改革', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Portrait_of_Charles_V%2C_Holy_Roman_Emperor%2C_seated_%281500%E2%80%931558%29%2C_formerly_attributed_to_Titian_%28Alte_Pinakothek%2C_Munich%29.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Francis II', nameZh: '弗朗茨二世', years: '1792-1806', summary: '最后一位皇帝，迫于拿破仑压力退位', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Francis_II%2C_Holy_Roman_Emperor_by_Friedrich_von_Amerling_%284x5_cropped%29.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: 962, event: 'Otto I crowned Emperor', eventZh: '奥托一世加冕' },
@@ -210,8 +210,8 @@ export const empires: Empire[] = [
     predecessor: '卡斯蒂利亚-阿拉贡联合王国',
     successor: ['西班牙王国'],
     keyEmperors: [
-      { name: 'Philip II', nameZh: '腓力二世', years: '1556-1598', summary: '帝国鼎盛时期，无敌舰队时代' },
-      { name: 'Charles I (Charles V)', nameZh: '查理一世（查理五世）', years: '1516-1556', summary: '日不落帝国的缔造者' },
+      { name: 'Philip II', nameZh: '腓力二世', years: '1556-1598', summary: '帝国鼎盛时期，无敌舰队时代', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/2/2d/Portrait_of_Philip_II_of_Spain_by_Sofonisba_Anguissola_-_002b.jpg', portraitSource: 'Wikimedia Commons' },
+      { name: 'Charles I (Charles V)', nameZh: '查理一世（查理五世）', years: '1516-1556', summary: '日不落帝国的缔造者', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Portrait_of_Charles_V%2C_Holy_Roman_Emperor%2C_seated_%281500%E2%80%931558%29%2C_formerly_attributed_to_Titian_%28Alte_Pinakothek%2C_Munich%29.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: 1492, event: 'Completion of Reconquista; Columbus voyage', eventZh: '收复失地完成；哥伦布远航' },
@@ -248,7 +248,7 @@ export const empires: Empire[] = [
     predecessor: '法兰西第一共和国',
     successor: ['法兰西王国'],
     keyEmperors: [
-      { name: 'Napoleon I', nameZh: '拿破仑一世', years: '1804-1815', summary: '法国最伟大的军事家和统治者之一' },
+      { name: 'Napoleon I', nameZh: '拿破仑一世', years: '1804-1815', summary: '法国最伟大的军事家和统治者之一', portraitImage: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg', portraitSource: 'Wikimedia Commons' },
     ],
     expansion: [
       { year: 1799, event: 'Napoleon becomes First Consul', eventZh: '拿破仑成为第一执政' },

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, GeoJSON, useMap, Popup, Marker } from 'react-l
 import L from 'leaflet';
 import type { GeoJsonFeature, Region } from '../data/types';
 import { useGeoData, useEventsByYear, formatYear } from '../hooks/useHistory';
+import { modernBoundaries } from '../data/geo-data/modern-boundaries';
 
 // Fix Leaflet default icon
 import 'leaflet/dist/leaflet.css';
@@ -22,11 +23,13 @@ function MapContent({
   geoData,
   year,
   region,
+  showModernBorders,
 }: {
   geoData: GeoJsonFeature[];
   year: number;
   onYearChange?: (year: number) => void;
   region: Region;
+  showModernBorders: boolean;
 }) {
   const map = useMap();
 
@@ -43,21 +46,66 @@ function MapContent({
     .sort((a, b) => Math.abs(a.properties.year - year) - Math.abs(b.properties.year - year))[0];
 
   const getFeatureStyle = (feature: GeoJsonFeature) => {
+    const name = feature.properties.displayName;
     const colors: Record<string, string> = {
-      'Roman Empire': '#b71c1c',
-      'Carolingian Empire': '#6a1b9a',
-      'Holy Roman Empire': '#ff8f00',
-      'Byzantine Empire': '#9b30ff',
-      'Spanish Empire (Europe)': '#ad1457',
-      'French Empire': '#1565c0',
-      'German Empire': '#2e7d32',
-      'Macedonian Empire': '#0d47a1',
-      'Ancient Greece': '#2e7d32',
+      // Roman Empire
+      '罗马帝国(14年)': '#c62828',
+      '罗马帝国(117年)': '#b71c1c',
+      '罗马帝国分裂(395年)': '#d32f2f',
+      '西罗马灭亡(476年)': '#e57373',
+      // Byzantine Empire
+      '拜占庭帝国(555年)': '#9b30ff',
+      '拜占庭帝国(1025年)': '#7c4dff',
+      '拜占庭帝国(1180年)': '#b388ff',
+      '拜占庭帝国(1400年)': '#d1c4e9',
+      // Macedonian & Greek
+      '马其顿帝国(亚历山大)': '#0d47a1',
+      '古希腊城邦(-500年)': '#2e7d32',
+      // Carolingian
+      '查理曼帝国(814年)': '#6a1b9a',
+      '查理曼帝国(843年)': '#7b1fa2',
+      // Holy Roman Empire
+      '神圣罗马帝国(962年)': '#f57c00',
+      '神圣罗马帝国(1200年)': '#ff8f00',
+      '神圣罗马帝国(1648年)': '#ffa726',
+      '神圣罗马帝国(1789年)': '#ffb74d',
+      // Spanish Empire (hand-crafted, 1492+)
+      '西班牙帝国(1600年)': '#ad1457',
+      '西班牙帝国(1700年)': '#c2185b',
+      '西班牙帝国(1800年)': '#e91e63',
+      // French Empire (hand-crafted)
+      '法兰西第一帝国(1804年)': '#1976d2',
+      '法兰西第一帝国(1812年)': '#1565c0',
+      // German Empire (hand-crafted)
+      '德意志帝国(1871年)': '#2e7d32',
+      // Countries
+      '盎格鲁-撒克逊英格兰(800年)': '#1565c0',
+      '英格兰王国(927年)': '#1976d2',
+      '西法兰克王国(843年)': '#6a1b9a',
+      '法兰西王国(1400年)': '#1565c0',
+      '伊比利亚半岛(1000年)': '#ad1457',
+      '西班牙统一(1492年)': '#c2185b',
+      '葡萄牙王国(1143年)': '#2e7d32',
+      '德意志王国(962年)': '#f57c00',
+      '挪威王国（现代）': '#1a237e',
+      '瑞典王国（现代）': '#006aa7',
+      '丹麦王国（现代）': '#c60c30',
+      '芬兰共和国（二战前）': '#003580',
+      '芬兰共和国（现代）': '#003580',
+      '比利时王国（现代）': '#f9a825',
+      '瑞士联邦（现代）': '#d32f2f',
+      '奥地利共和国（现代）': '#e53935',
+      '爱尔兰（独立后）': '#2e7d32',
+      '波兰共和国（现代）': '#c62828',
+      '卢森堡大公国（现代）': '#00acc1',
+      '冰岛共和国（现代）': '#1565c0',
+      '摩纳哥公国（现代）': '#ce1126',
+      '梵蒂冈城国（现代）': '#fdd835',
     };
 
     const isClosest = closestFeature && feature.properties.name === closestFeature.properties.name;
     return {
-      fillColor: colors[feature.properties.name] || '#8b4513',
+      fillColor: colors[name] || (feature.properties.category === 'empire' ? '#b71c1c' : '#1565c0'),
       color: isClosest ? '#fbbf24' : '#78350f',
       weight: isClosest ? 3 : 1,
       fillOpacity: isClosest ? 0.4 : 0.2,
@@ -68,7 +116,7 @@ function MapContent({
   const onEachFeature = (feature: GeoJsonFeature, layer: L.Layer) => {
     layer.bindPopup(`
       <div style="font-family: Georgia, serif; min-width: 150px;">
-        <h4 style="margin:0 0 4px; color:#78350f;">${feature.properties.name}</h4>
+        <h4 style="margin:0 0 4px; color:#78350f;">${feature.properties.displayName}</h4>
         <p style="margin:0; font-size:12px; color:#78716c;">${formatYear(feature.properties.year)}</p>
       </div>
     `);
@@ -81,7 +129,7 @@ function MapContent({
         <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg border border-amber-200 shadow-md">
           <span className="text-lg font-bold text-amber-800">{formatYear(year)}</span>
           {closestFeature && (
-            <span className="text-xs text-stone-500 ml-1">· {closestFeature.properties.name}</span>
+            <span className="text-xs text-stone-500 ml-1">· {closestFeature.properties.displayName}</span>
           )}
         </div>
       </div>
@@ -101,11 +149,34 @@ function MapContent({
         </div>
       )}
 
+      {/* Modern country boundaries reference layer */}
+      {showModernBorders && (
+        <GeoJSON
+          key="modern-boundaries"
+          data={modernBoundaries as never}
+          style={() => ({
+            fillColor: 'transparent',
+            color: '#6b7280',
+            weight: 0.8,
+            opacity: 0.5,
+            fillOpacity: 0,
+            dashArray: '3,4',
+          })}
+          onEachFeature={(feature, layer) => {
+            layer.bindTooltip(feature.properties.displayName, {
+              permanent: false,
+              direction: 'center',
+              className: 'modern-border-tooltip',
+            });
+          }}
+        />
+      )}
+
       {/* GeoJSON layers */}
       {geoData.map((feature) => {
         const style = getFeatureStyle(feature);
         const diff = Math.abs(feature.properties.year - year);
-        if (diff > 100) return null;
+        if (diff > 500) return null;
 
         return (
           <GeoJSON
@@ -113,7 +184,7 @@ function MapContent({
             data={feature as never}
             style={() => ({
               ...style,
-              fillOpacity: style.fillOpacity * Math.max(0.2, 1 - diff / 200),
+              fillOpacity: style.fillOpacity * Math.max(0.15, 1 - diff / 600),
             })}
             onEachFeature={onEachFeature as never}
           />
@@ -148,6 +219,7 @@ export default function HistoryMap({
   height = '600px',
 }: HistoryMapProps) {
   const [internalYear, setInternalYear] = useState(externalYear || 117);
+  const [showModernBorders, setShowModernBorders] = useState(true);
   const geoData = useGeoData(region);
 
   const year = externalYear ?? internalYear;
@@ -169,15 +241,28 @@ export default function HistoryMap({
         zoomControl={true}
         scrollWheelZoom={false}
       >
+        {/* Base map: CARTO Voyager with labels */}
         <TileLayer
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} />
+        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} />
       </MapContainer>
 
+      {/* Toggle modern borders */}
+      <button
+        onClick={() => setShowModernBorders(!showModernBorders)}
+        className={`absolute top-3 right-3 z-[1000] px-3 py-1.5 rounded-lg text-xs font-medium border transition-all shadow-md ${
+          showModernBorders
+            ? 'bg-amber-600 text-white border-amber-700'
+            : 'bg-white/90 text-amber-700 border-amber-300 hover:bg-amber-50'
+        }`}
+      >
+        {showModernBorders ? '📍 现代边界: 开' : '📍 现代边界: 关'}
+      </button>
+
       {/* Year slider */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent pt-8 pb-4 px-6">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent pt-8 pb-4 px-6 z-[1000]">
         <div className="flex items-center gap-4">
           <button
             onClick={() => handleYearChange(Math.max(minYear, year - 100))}

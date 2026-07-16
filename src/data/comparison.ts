@@ -24,7 +24,7 @@ export const comparisonPoints: ComparisonPoint[] = [
     },
     china: {
       events: [],
-      summary: '东晋偏安江南，北方进入五胡十六国/南北朝时期。政权更迭频繁，民族大融合。',
+      summary: '东晋偏安江南，北方处于十六国分裂末期。政权更迭频繁，民族大融合。',
     },
   },
   {
