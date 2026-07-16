@@ -115,7 +115,7 @@ export const countries: Country[] = [
     ],
     territoryEvolution: [
       { startYear: 962, endYear: 1806, label: '神圣罗马帝国（德意志王国）', geoJsonKey: 'germany-962',
-        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/0/0a/Holy_Roman_Empire_at_its_territorial_apex.svg',
+        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/3/34/Holy_Roman_Empire_at_its_territorial_apex.svg',
         mapSource: 'Wikimedia Commons' },
       { startYear: 1871, endYear: 1918, label: '德意志帝国', geoJsonKey: 'germany-1871',
         mapImage: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Deutsches_Reich_%281871-1918%29-de.svg',
@@ -274,7 +274,7 @@ export const countries: Country[] = [
         mapImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Republiek_der_Zeven_Verenigde_Nederlanden.svg',
         mapSource: 'Wikimedia Commons' },
       { startYear: 1815, endYear: 2025, label: '荷兰王国（现代）', geoJsonKey: 'netherlands-current',
-        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Netherlands_in_Europe.svg',
+        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Netherlands_in_Europe.svg',
         mapSource: 'Wikimedia Commons' },
     ],
     keyRulers: [
@@ -494,7 +494,7 @@ export const countries: Country[] = [
     ],
     territoryEvolution: [
       { startYear: 1848, endYear: 2025, label: '瑞士联邦（现代）', geoJsonKey: 'switzerland-current',
-        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Switzerland_in_Europe.svg',
+        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ad/Switzerland_in_Europe.svg',
         mapSource: 'Wikimedia Commons' },
     ],
     keyRulers: [
@@ -616,7 +616,7 @@ export const countries: Country[] = [
     ],
     territoryEvolution: [
       { startYear: 1867, endYear: 2025, label: '卢森堡大公国（现代）', geoJsonKey: 'luxembourg-current',
-        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Luxembourg_in_Europe.svg',
+        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Luxembourg_in_Europe.svg',
         mapSource: 'Wikimedia Commons' },
     ],
     keyRulers: [
@@ -700,7 +700,7 @@ export const countries: Country[] = [
     ],
     territoryEvolution: [
       { startYear: 1929, endYear: 2025, label: '梵蒂冈城国（现代）', geoJsonKey: 'vatican-current',
-        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Vatican_City_in_Europe.svg',
+        mapImage: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Vatican_City_in_Europe.svg',
         mapSource: 'Wikimedia Commons' },
     ],
     keyRulers: [

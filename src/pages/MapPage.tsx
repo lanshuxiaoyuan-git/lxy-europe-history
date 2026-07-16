@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import HistoryMap from '../components/HistoryMap';
 import Timeline from '../components/Timeline';
+import EntitySelector, { type EntitySelection } from '../components/EntitySelector';
 import { useCountries, useEmpires } from '../hooks/useHistory';
+import { genealogyBranches, type GenealogyNode } from '../data/ethnic-genealogy';
 
 export default function MapPage() {
   const [searchParams] = useSearchParams();
@@ -13,6 +15,62 @@ export default function MapPage() {
 
   const countries = useCountries('western-europe');
   const empires = useEmpires('western-europe');
+
+  // 实体筛选状态
+  const [selectedEntity, setSelectedEntity] = useState<EntitySelection | null>(null);
+
+  // 根据选中的实体计算要显示的 geoJsonKey 列表
+  const filteredGeoJsonKeys = useMemo<string[] | undefined>(() => {
+    if (!selectedEntity) return undefined;
+
+    if (selectedEntity.type === 'empire') {
+      const empire = empires.find(e => e.id === selectedEntity.id);
+      return empire?.territoryEvolution.map(s => s.geoJsonKey);
+    }
+
+    if (selectedEntity.type === 'country') {
+      const country = countries.find(c => c.id === selectedEntity.id);
+      return country?.territoryEvolution.map(s => s.geoJsonKey);
+    }
+
+    if (selectedEntity.type === 'ethnic') {
+      const branch = genealogyBranches.find(b => b.id === selectedEntity.id);
+      if (!branch) return undefined;
+
+      // 递归收集分支中所有叶子节点的 countries
+      function collectCountryIds(node: GenealogyNode): string[] {
+        const ids = node.countries ? [...node.countries] : [];
+        if (node.children) {
+          for (const child of node.children) {
+            ids.push(...collectCountryIds(child));
+          }
+        }
+        return ids;
+      }
+      const countryIds = [...new Set(collectCountryIds(branch.root))];
+
+      // 将 country ID 解析为 territoryEvolution 的 geoJsonKey
+      const keys: string[] = [];
+      for (const cid of countryIds) {
+        const country = countries.find(c => c.id === cid);
+        if (country) {
+          keys.push(...country.territoryEvolution.map(s => s.geoJsonKey));
+        }
+      }
+      return keys;
+    }
+
+    return undefined;
+  }, [selectedEntity, empires, countries]);
+
+  // 获取选中实体的显示名称
+  const selectedEntityName = useMemo(() => {
+    if (!selectedEntity) return null;
+    if (selectedEntity.type === 'empire') return empires.find(e => e.id === selectedEntity.id)?.nameZh;
+    if (selectedEntity.type === 'country') return countries.find(c => c.id === selectedEntity.id)?.nameZh;
+    if (selectedEntity.type === 'ethnic') return genealogyBranches.find(b => b.id === selectedEntity.id)?.name;
+    return null;
+  }, [selectedEntity, empires, countries]);
 
   useEffect(() => {
     const eraId = searchParams.get('era');
@@ -37,7 +95,10 @@ export default function MapPage() {
           <div>
             <h1 className="text-3xl font-bold text-stone-800 mb-2">🗺️ 西欧版图演变</h1>
             <p className="text-stone-500">
-              拖动下方时间滑块，查看各时期西欧版图的变化。点击国家/帝国名称下钻查看详情。
+              {selectedEntity
+                ? `当前筛选：${selectedEntityName}（${filteredGeoJsonKeys?.length ?? 0} 个版图阶段）`
+                : '拖动下方时间滑块，查看各时期西欧版图的变化。点击国家/帝国名称下钻查看详情。'
+              }
             </p>
           </div>
           <button
@@ -53,6 +114,15 @@ export default function MapPage() {
         </div>
       </motion.div>
 
+      {/* Entity selector */}
+      <div className="mb-4">
+        <EntitySelector
+          selected={selectedEntity}
+          onSelect={setSelectedEntity}
+          onClear={() => setSelectedEntity(null)}
+        />
+      </div>
+
       {/* Map */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
@@ -60,7 +130,7 @@ export default function MapPage() {
         transition={{ delay: 0.1 }}
         className="mb-8"
       >
-        <HistoryMap region="western-europe" year={year} onYearChange={setYear} height="550px" />
+        <HistoryMap region="western-europe" year={year} onYearChange={setYear} height="550px" filteredGeoJsonKeys={filteredGeoJsonKeys} />
       </motion.div>
 
       {/* Timeline panel */}

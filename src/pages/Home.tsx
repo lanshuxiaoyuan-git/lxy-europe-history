@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import EraCard from '../components/EraCard';
+
 import { useEras } from '../hooks/useHistory';
 
 export default function Home() {
@@ -53,7 +53,7 @@ export default function Home() {
           { icon: '📆', value: '2800+', label: '年历史跨度' },
           { icon: '🏛️', value: '8', label: '历史时代' },
           { icon: '🗺️', value: '7', label: '主要帝国' },
-          { icon: '🇪🇺', value: '8', label: '西欧国家' },
+          { icon: '🇪🇺', value: '21', label: '西欧国家' },
         ].map((stat, i) => (
           <div key={i} className="bg-white rounded-xl border border-amber-200/50 p-4 text-center">
             <span className="text-2xl">{stat.icon}</span>
@@ -63,20 +63,7 @@ export default function Home() {
         ))}
       </motion.div>
 
-      {/* Era cards */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-stone-800 mb-2 flex items-center gap-2">
-          <span>📜</span> 历史时代
-        </h2>
-        <p className="text-stone-500 mb-6">点击进入各时代的版图与事件探索</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {eras.map((era, index) => (
-            <EraCard key={era.id} era={era} index={index} />
-          ))}
-        </div>
-      </div>
-
-      {/* Quick links */}
+      {/* Quick links — 帝国兴衰等快捷入口 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
         {[
           {
@@ -126,6 +113,99 @@ export default function Home() {
             </span>
           </motion.div>
         ))}
+      </div>
+
+      {/* 历史时代 — 纵向排列，配艺术作品图片 */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-stone-800 mb-2 flex items-center gap-2">
+          <span>📜</span> 历史时代
+        </h2>
+        <p className="text-stone-500 mb-6">点击进入各时代的版图与事件探索</p>
+        <div className="space-y-5">
+          {eras.map((era, index) => (
+            <motion.div
+              key={era.id}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.08 }}
+              onClick={() => navigate(`/era/${era.id}`)}
+              className="group cursor-pointer bg-white rounded-xl border border-amber-200/50 shadow-sm hover:shadow-lg hover:border-amber-300 transition-all duration-300 overflow-hidden"
+            >
+              <div className="flex flex-col md:flex-row">
+                {/* 左侧：艺术作品图片 */}
+                <div className="md:w-56 lg:w-64 shrink-0 relative overflow-hidden bg-stone-100 h-48 md:h-52 lg:h-56">
+                  {era.imageUrl ? (
+                    <img
+                      src={era.imageUrl}
+                      alt={era.nameZh}
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center text-5xl"
+                      style={{ backgroundColor: era.color + '20' }}
+                    >
+                      <span style={{ color: era.color }}>{era.nameZh.charAt(0)}</span>
+                    </div>
+                  )}
+                  {/* 颜色条叠加 */}
+                  <div
+                    className="absolute top-0 left-0 w-1.5 h-full"
+                    style={{ backgroundColor: era.color }}
+                  />
+                </div>
+
+                {/* 右侧：时代信息 */}
+                <div className="p-5 md:p-6 flex-1 flex flex-col justify-center">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-stone-800 group-hover:text-amber-900 transition-colors">
+                        {era.nameZh}
+                      </h3>
+                      <p className="text-xs text-stone-400 mt-0.5">{era.name}</p>
+                    </div>
+                    <span
+                      className="text-xs px-2.5 py-1 rounded-full text-white font-medium shrink-0 ml-3"
+                      style={{ backgroundColor: era.color }}
+                    >
+                      {era.startYear < 0 ? `${Math.abs(era.startYear)}BC` : `${era.startYear}AD`} — {era.endYear}AD
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-stone-600 leading-relaxed mb-3">
+                    {era.summary}
+                  </p>
+
+                  {/* 关键事件 */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {era.keyEvents.slice(0, 4).map((ev, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200"
+                      >
+                        {ev}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* 图片来源标注 */}
+                  {era.imageSource && (
+                    <p className="text-[10px] text-stone-400 mt-3 italic">
+                      🎨 {era.imageSource}
+                    </p>
+                  )}
+
+                  <div className="mt-3">
+                    <span className="text-amber-600 text-sm group-hover:translate-x-1 transition-transform inline-block">
+                      探索 {era.nameZh} →
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

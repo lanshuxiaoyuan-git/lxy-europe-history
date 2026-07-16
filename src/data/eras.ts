@@ -11,6 +11,8 @@ export const eras: Era[] = [
     summary: '从荷马时代到希腊化时期，城邦文明的兴起与衰落，雅典民主的诞生，亚历山大帝国的征服。',
     keyEvents: ['雅典民主建立', '希波战争', '伯罗奔尼撒战争', '亚历山大东征'],
     color: '#0d47a1',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/da/The_Parthenon_in_Athens.jpg',
+    imageSource: '帕特农神庙，雅典卫城（Steve Swayne, CC BY 2.0）',
   },
   {
     id: 'roman-era',
@@ -22,6 +24,8 @@ export const eras: Era[] = [
     summary: '从罗马建城到西罗马帝国灭亡，共和国到帝制的转变，地中海成为"我们的海"。',
     keyEvents: ['罗马共和国建立', '布匿战争', '恺撒跨过卢比孔河', '罗马帝国建立', '基督教合法化'],
     color: '#b22222',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Colosseum-exterior-2007.JPG',
+    imageSource: '罗马斗兽场（Alexander Baxevanis, CC BY 2.0）',
   },
   {
     id: 'early-medieval',
@@ -33,6 +37,8 @@ export const eras: Era[] = [
     summary: '西罗马帝国灭亡后的民族大迁徙，法兰克王国崛起，查理曼帝国统一西欧。',
     keyEvents: ['克洛维建立法兰克王国', '查理曼加冕', '维京人入侵', '神圣罗马帝国建立'],
     color: '#6a1b9a',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Charlemagne-by-Durer.jpg',
+    imageSource: '查理曼大帝像，阿尔布雷希特·丢勒绘（1512年，Public Domain）',
   },
   {
     id: 'high-medieval',
@@ -44,6 +50,8 @@ export const eras: Era[] = [
     summary: '封建制度达到顶峰，十字军东征，英法王权巩固，大学和经院哲学兴起。',
     keyEvents: ['诺曼征服', '十字军东征', '大宪章签署', '博洛尼亚大学建立（约1088年）'],
     color: '#c62828',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Bayeuxtapestrydeathofharold.jpg',
+    imageSource: '贝叶挂毯（哈罗德战死场景，11世纪，Public Domain）',
   },
   {
     id: 'late-medieval',
@@ -55,6 +63,8 @@ export const eras: Era[] = [
     summary: '黑死病、百年战争、文艺复兴运动兴起，西班牙完成收复失地运动。',
     keyEvents: ['百年战争', '黑死病', '文艺复兴开始', '君士坦丁堡陷落', '哥伦布发现新大陆'],
     color: '#e65100',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/La_nascita_di_Venere_%28Botticelli%29.jpg',
+    imageSource: '维纳斯的诞生，桑德罗·波提切利绘（1485年，Public Domain）',
   },
   {
     id: 'early-modern',
@@ -66,6 +76,8 @@ export const eras: Era[] = [
     summary: '大航海时代、宗教改革与战争、科学革命、启蒙运动。',
     keyEvents: ['宗教改革', '荷兰独立', '三十年战争', '科学革命', '启蒙运动'],
     color: '#1565c0',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Rembrandt_nightwatch_large.jpg',
+    imageSource: '夜巡，伦勃朗绘（1642年，Rijksmuseum, Public Domain）',
   },
   {
     id: 'modern-era',
@@ -77,6 +89,8 @@ export const eras: Era[] = [
     summary: '拿破仑战争、德意志和意大利统一、工业革命和殖民帝国扩张。',
     keyEvents: ['拿破仑称帝', '德意志统一', '意大利统一', '工业革命', '维多利亚时代'],
     color: '#2e7d32',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Jacques-Louis_David_-_Napoleon_Crossing_the_Alps_-_Kunsthistorisches_Museum.jpg',
+    imageSource: '拿破仑翻越阿尔卑斯山，雅克-路易·大卫绘（1801年，Kunsthistorisches Museum, Public Domain）',
   },
   {
     id: 'contemporary',
@@ -88,5 +102,7 @@ export const eras: Era[] = [
     summary: '两次世界大战、冷战、欧洲一体化进程。',
     keyEvents: ['第一次世界大战', '第二次世界大战', '欧盟成立', '欧元启用', '英国脱欧'],
     color: '#37474f',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/West_and_East_Germans_at_the_Brandenburg_Gate_in_1989.jpg',
+    imageSource: '东西德人在勃兰登堡门，柏林墙倒塌（1989年11月9日，CC BY-SA）',
   },
 ];

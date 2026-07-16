@@ -16,6 +16,8 @@ interface HistoryMapProps {
   highlightedFeatures?: string[];
   showControls?: boolean;
   height?: string;
+  /** 如果提供，只渲染名称在此数组中的 GeoJSON 特征 */
+  filteredGeoJsonKeys?: string[];
 }
 
 // Map content that can use the useMap hook
@@ -24,12 +26,14 @@ function MapContent({
   year,
   region,
   showModernBorders,
+  filteredGeoJsonKeys,
 }: {
   geoData: GeoJsonFeature[];
   year: number;
   onYearChange?: (year: number) => void;
   region: Region;
   showModernBorders: boolean;
+  filteredGeoJsonKeys?: string[];
 }) {
   const map = useMap();
 
@@ -42,7 +46,13 @@ function MapContent({
   }, [region, map]);
 
   const yearEvents = useEventsByYear(year, region);
-  const closestFeature = geoData
+
+  // 如果指定了 filteredGeoJsonKeys，只保留匹配的特征
+  const visibleGeoData = filteredGeoJsonKeys
+    ? geoData.filter(f => filteredGeoJsonKeys.includes(f.properties.name))
+    : geoData;
+
+  const closestFeature = visibleGeoData
     .sort((a, b) => Math.abs(a.properties.year - year) - Math.abs(b.properties.year - year))[0];
 
   const getFeatureStyle = (feature: GeoJsonFeature) => {
@@ -173,7 +183,7 @@ function MapContent({
       )}
 
       {/* GeoJSON layers */}
-      {geoData.map((feature) => {
+      {visibleGeoData.map((feature) => {
         const style = getFeatureStyle(feature);
         const diff = Math.abs(feature.properties.year - year);
         if (diff > 500) return null;
@@ -217,6 +227,7 @@ export default function HistoryMap({
   onYearChange: _onYearChange,
   onCountryClick: _onCountryClick,
   height = '600px',
+  filteredGeoJsonKeys,
 }: HistoryMapProps) {
   const [internalYear, setInternalYear] = useState(externalYear || 117);
   const [showModernBorders, setShowModernBorders] = useState(true);
@@ -232,9 +243,13 @@ export default function HistoryMap({
   const minYear = -800;
   const maxYear = 2025;
 
+  // 筛选条件变化时重建整个地图实例，彻底清除旧图层
+  const mapKey = filteredGeoJsonKeys?.join(',') ?? 'all';
+
   return (
     <div className="relative rounded-xl overflow-hidden border border-amber-200 shadow-lg bg-parchment">
       <MapContainer
+        key={mapKey}
         center={region === 'western-europe' ? [48, 5] : [35, 105]}
         zoom={4}
         style={{ height, width: '100%' }}
@@ -246,7 +261,7 @@ export default function HistoryMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} />
+        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} filteredGeoJsonKeys={filteredGeoJsonKeys} />
       </MapContainer>
 
       {/* Toggle modern borders */}

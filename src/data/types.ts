@@ -10,6 +10,8 @@ export interface Era {
   summary: string;
   keyEvents: string[];
   color: string;
+  imageUrl?: string;    // 时代配图（艺术作品）
+  imageSource?: string; // 图片来源标注
 }
 
 export interface Ruler {
