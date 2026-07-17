@@ -21,15 +21,21 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
   const navigate = useNavigate();
 
   const categories = [
-    { key: 'political', label: '政治', color: 'bg-blue-500' },
-    { key: 'war', label: '军事', color: 'bg-red-500' },
-    { key: 'culture', label: '文化', color: 'bg-purple-500' },
-    { key: 'economy', label: '经济', color: 'bg-green-500' },
-    { key: 'science', label: '科技', color: 'bg-teal-500' },
+    { key: 'political', label: '政治', color: 'bg-blue-500', bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', hoverBg: 'hover:bg-blue-100', hoverBorder: 'hover:border-blue-300' },
+    { key: 'war', label: '军事', color: 'bg-red-500', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', hoverBg: 'hover:bg-red-100', hoverBorder: 'hover:border-red-300' },
+    { key: 'culture', label: '文化', color: 'bg-purple-500', bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700', hoverBg: 'hover:bg-purple-100', hoverBorder: 'hover:border-purple-300' },
+    { key: 'economy', label: '经济', color: 'bg-green-500', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', hoverBg: 'hover:bg-green-100', hoverBorder: 'hover:border-green-300' },
+    { key: 'science', label: '科技', color: 'bg-teal-500', bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', hoverBg: 'hover:bg-teal-100', hoverBorder: 'hover:border-teal-300' },
   ];
 
   const getCategoryColor = (cat: string) =>
     categories.find(c => c.key === cat)?.color || 'bg-gray-400';
+
+  const getCardStyle = (cat: string) => {
+    const c = categories.find(x => x.key === cat);
+    if (!c) return { bg: 'bg-white', border: 'border-stone-200', text: 'text-stone-800' };
+    return { bg: c.bg, border: c.border, text: c.text };
+  };
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -147,6 +153,17 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
     );
   }
 
+  /** 返回事件卡片样式（按分类着色） */
+  function cardClass(event: HistoryEvent, isSelected: boolean): string {
+    const cs = getCardStyle(event.category);
+    if (isSelected) {
+      return `p-2.5 rounded-lg border-2 ${cs.border} ${cs.bg} shadow-md`;
+    }
+    // 非选中态：用分类浅色底 + 分类边框
+    const hoverBg = cs.bg.replace('-50', '-100');
+    return `p-2.5 rounded-lg border ${cs.border} ${cs.bg} ${hoverBg} transition-all duration-200 hover:shadow-md`;
+  }
+
   return (
     <div className="relative">
       {/* Legend */}
@@ -168,9 +185,9 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
         onMouseLeave={handleMouseUp}
       >
         <div className="relative min-w-max px-8 pb-8">
-          {/* 时间线：绝对定位在所有圆点后面 */}
+          {/* 时间线 — 居中于上下卡片之间: h-24(96px) + h-3(12px) + 圆点半高(6px) = 114px */}
           <div className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 rounded-full"
-               style={{ top: '7.125rem' }} />
+               style={{ top: '108px' }} />
 
           <div className="flex gap-12">
             {centuries.map((century) => {
@@ -201,11 +218,7 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
                               highlightedEvents?.includes(pair[0].id) ? 'ring-2 ring-amber-400 rounded-lg' : ''
                             }`}
                           >
-                            <div className={`p-2.5 rounded-lg border transition-all duration-200 hover:shadow-md ${
-                              selectedEvent?.id === pair[0].id
-                                ? 'border-amber-400 bg-amber-50 shadow-md'
-                                : 'border-stone-200 bg-white hover:border-amber-300'
-                            }`}>
+                            <div className={cardClass(pair[0], selectedEvent?.id === pair[0].id)}>
                               <div className="flex items-center gap-1.5 mb-0.5">
                                 <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColor(pair[0].category)}`} />
                                 <span className="text-[10px] text-stone-400">{formatYear(pair[0].year)}</span>
@@ -244,11 +257,7 @@ export default function Timeline({ region = 'western-europe', onEventClick, high
                                 highlightedEvents?.includes(pair[1].id) ? 'ring-2 ring-amber-400 rounded-lg' : ''
                               }`}
                             >
-                              <div className={`p-2.5 rounded-lg border transition-all duration-200 hover:shadow-md ${
-                                selectedEvent?.id === pair[1].id
-                                  ? 'border-amber-400 bg-amber-50 shadow-md'
-                                  : 'border-stone-200 bg-white hover:border-amber-300'
-                              }`}>
+                              <div className={cardClass(pair[1], selectedEvent?.id === pair[1].id)}>
                                 <div className="flex items-center gap-1.5 mb-0.5">
                                   <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColor(pair[1].category)}`} />
                                   <span className="text-[10px] text-stone-400">{formatYear(pair[1].year)}</span>
