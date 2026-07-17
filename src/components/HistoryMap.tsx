@@ -31,6 +31,8 @@ interface HistoryMapProps {
   filteredGeoJsonKeys?: string[];
   /** 如果提供，只渲染版图年份在此范围内的特征（用于时代详情页） */
   yearRange?: [number, number];
+  /** 都城标记列表 */
+  capitals?: { name: string; nameZh: string; coordinates: [number, number] }[];
 }
 
 // Map content that can use the useMap hook
@@ -41,6 +43,7 @@ function MapContent({
   showModernBorders,
   filteredGeoJsonKeys,
   yearRange,
+  capitals,
 }: {
   geoData: GeoJsonFeature[];
   year: number;
@@ -49,6 +52,7 @@ function MapContent({
   showModernBorders: boolean;
   filteredGeoJsonKeys?: string[];
   yearRange?: [number, number];
+  capitals?: { name: string; nameZh: string; coordinates: [number, number] }[];
 }) {
   const map = useMap();
 
@@ -239,6 +243,39 @@ function MapContent({
             </Popup>
           </Marker>
         ))}
+
+      {/* Capital markers */}
+      {capitals && capitals.map(cap => (
+        <Marker
+          key={`capital-${cap.name}`}
+          position={[cap.coordinates[0], cap.coordinates[1]]}
+          icon={L.divIcon({
+            className: 'capital-marker',
+            html: `<div style="
+              background:#b45309;
+              color:white;
+              font-size:16px;
+              width:28px;height:28px;
+              border-radius:50%;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              border:3px solid #fbbf24;
+              box-shadow:0 2px 8px rgba(0,0,0,0.3);
+              cursor:pointer;
+            " title="${cap.nameZh}">🏛️</div>`,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14],
+          })}
+        >
+          <Popup>
+            <div style={{ fontFamily: 'Georgia, serif', minWidth: '120px' }}>
+              <h4 style={{ margin: '0 0 2px', color: '#78350f' }}>🏛️ {cap.nameZh}</h4>
+              <p style={{ margin: '0', fontSize: '12px', color: '#78716c' }}>都城 · {cap.name}</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
     </>
   );
 }
@@ -251,6 +288,7 @@ export default function HistoryMap({
   height = '600px',
   filteredGeoJsonKeys,
   yearRange,
+  capitals,
 }: HistoryMapProps) {
   const [internalYear, setInternalYear] = useState(externalYear || 117);
   const [showModernBorders, setShowModernBorders] = useState(true);
@@ -290,7 +328,7 @@ export default function HistoryMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} filteredGeoJsonKeys={filteredGeoJsonKeys} yearRange={yearRange} />
+        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} filteredGeoJsonKeys={filteredGeoJsonKeys} yearRange={yearRange} capitals={capitals} />
       </MapContainer>
 
       {/* Toggle modern borders */}

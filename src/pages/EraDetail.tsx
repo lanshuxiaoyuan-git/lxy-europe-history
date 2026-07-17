@@ -164,6 +164,7 @@ export default function EraDetail() {
           onYearChange={setYear}
           height="450px"
           yearRange={[era.startYear, era.endYear]}
+          capitals={eraEmpires.map(e => ({ name: e.capital, nameZh: `${e.nameZh}都城`, coordinates: e.coordinates }))}
         />
       </motion.div>
 
