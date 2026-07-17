@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, useMap, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { TerritoryEvolutionStage, GeoJsonFeature } from '../data/types';
 import { getGeoDataByKeys } from '../data/geo-data/western-europe';
@@ -16,10 +17,14 @@ function MapContent({
   feature,
   center,
   zoom,
+  capitalName,
+  capitalCoords,
 }: {
   feature: GeoJsonFeature | null;
   center: [number, number];
   zoom: number;
+  capitalName?: string;
+  capitalCoords?: [number, number];
 }) {
   const map = useMap();
 
@@ -33,10 +38,31 @@ function MapContent({
   const featureYear = feature.properties.year;
 
   return (
-    <GeoJSON
-      key={feature.properties.name}
-      data={feature as never}
-      style={{
+    <>
+      {/* Capital marker */}
+      {capitalName && capitalCoords && (
+        <Marker
+          position={[capitalCoords[0], capitalCoords[1]]}
+          icon={L.divIcon({
+            className: 'capital-marker',
+            html: `<div class="capital-marker-inner" title="${capitalName}">🏛️</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+          })}
+        >
+          <Popup>
+            <div style={{ fontFamily: 'Georgia, serif', minWidth: '120px' }}>
+              <h4 style={{ margin: '0 0 2px', color: '#78350f' }}>🏛️ {capitalName}</h4>
+              <p style={{ margin: '0', fontSize: '12px', color: '#78716c' }}>都城</p>
+            </div>
+          </Popup>
+        </Marker>
+      )}
+
+      <GeoJSON
+        key={feature.properties.name}
+        data={feature as never}
+        style={{
         fillColor: '#c0392b',
         color: '#922b21',
         weight: 3,
@@ -52,6 +78,7 @@ function MapContent({
         `);
       }}
     />
+    </>
   );
 }
 
@@ -109,6 +136,8 @@ export default function TerritoryEvolution({
             feature={activeFeature}
             center={center}
             zoom={defaultZoom}
+            capitalName={name}
+            capitalCoords={coordinates}
           />
         </MapContainer>
 
