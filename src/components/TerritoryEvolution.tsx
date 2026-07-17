@@ -178,6 +178,26 @@ export default function TerritoryEvolution({
         )}
       </div>
 
+      {/* 历史地图图片（当精确 GeoJSON 数据不足时展示） */}
+      {activeEntry?.mapImage && (
+        <div className="border-t border-amber-100 bg-stone-50/50 px-6 py-4">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+              📜 历史地图参考
+            </span>
+            {activeEntry.mapSource && (
+              <span className="text-[10px] text-stone-400">{activeEntry.mapSource}</span>
+            )}
+          </div>
+          <img
+            src={activeEntry.mapImage}
+            alt={activeEntry.label}
+            className="w-full rounded-lg border border-amber-200 shadow-sm"
+            loading="lazy"
+          />
+        </div>
+      )}
+
       {/* Timeline navigation */}
       {territoryEvolution.length > 0 && (
         <div className="px-6 py-5 border-t border-amber-100">
