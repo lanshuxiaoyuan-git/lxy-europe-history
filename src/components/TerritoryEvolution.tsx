@@ -45,7 +45,7 @@ function MapContent({
           position={[capitalCoords[0], capitalCoords[1]]}
           icon={L.divIcon({
             className: 'capital-marker',
-            html: `<div class="capital-marker-inner" title="${capitalName}">🏛️</div>`,
+            html: '<div class="capital-marker-inner">🏛️</div>',
             iconSize: [30, 30],
             iconAnchor: [15, 15],
           })}

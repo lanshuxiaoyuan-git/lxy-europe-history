@@ -249,7 +249,6 @@ function MapContent({
         const el = document.createElement('div');
         el.className = 'capital-marker-inner';
         el.textContent = '🏛️';
-        el.title = cap.nameZh;
         return (
         <Marker
           key={`capital-${cap.name}`}
