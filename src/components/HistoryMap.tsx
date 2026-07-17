@@ -29,6 +29,8 @@ interface HistoryMapProps {
   height?: string;
   /** 如果提供，只渲染名称在此数组中的 GeoJSON 特征 */
   filteredGeoJsonKeys?: string[];
+  /** 如果提供，只渲染版图年份在此范围内的特征（用于时代详情页） */
+  yearRange?: [number, number];
 }
 
 // Map content that can use the useMap hook
@@ -38,6 +40,7 @@ function MapContent({
   region,
   showModernBorders,
   filteredGeoJsonKeys,
+  yearRange,
 }: {
   geoData: GeoJsonFeature[];
   year: number;
@@ -45,6 +48,7 @@ function MapContent({
   region: Region;
   showModernBorders: boolean;
   filteredGeoJsonKeys?: string[];
+  yearRange?: [number, number];
 }) {
   const map = useMap();
 
@@ -59,9 +63,16 @@ function MapContent({
   const yearEvents = useEventsByYear(year, region);
 
   // 如果指定了 filteredGeoJsonKeys，只保留匹配的特征
-  const visibleGeoData = filteredGeoJsonKeys
-    ? geoData.filter(f => filteredGeoJsonKeys.includes(f.properties.name))
-    : geoData;
+  const visibleGeoData = (() => {
+    let data = filteredGeoJsonKeys
+      ? geoData.filter(f => filteredGeoJsonKeys.includes(f.properties.name))
+      : geoData;
+    // 如果指定了 yearRange，只保留版图年份在范围内的特征
+    if (yearRange) {
+      data = data.filter(f => f.properties.year >= yearRange[0] && f.properties.year <= yearRange[1]);
+    }
+    return data;
+  })();
 
   const closestFeature = visibleGeoData
     .sort((a, b) => Math.abs(a.properties.year - year) - Math.abs(b.properties.year - year))[0];
@@ -239,6 +250,7 @@ export default function HistoryMap({
   onCountryClick: _onCountryClick,
   height = '600px',
   filteredGeoJsonKeys,
+  yearRange,
 }: HistoryMapProps) {
   const [internalYear, setInternalYear] = useState(externalYear || 117);
   const [showModernBorders, setShowModernBorders] = useState(true);
@@ -272,7 +284,7 @@ export default function HistoryMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} filteredGeoJsonKeys={filteredGeoJsonKeys} />
+        <MapContent geoData={geoData} year={year} onYearChange={_onYearChange} region={region} showModernBorders={showModernBorders} filteredGeoJsonKeys={filteredGeoJsonKeys} yearRange={yearRange} />
       </MapContainer>
 
       {/* Toggle modern borders */}

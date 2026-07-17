@@ -163,6 +163,7 @@ export default function EraDetail() {
           year={year}
           onYearChange={setYear}
           height="450px"
+          yearRange={[era.startYear, era.endYear]}
         />
       </motion.div>
 
