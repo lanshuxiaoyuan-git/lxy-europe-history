@@ -7,6 +7,17 @@ import { modernBoundaries } from '../data/geo-data/modern-boundaries';
 
 // Fix Leaflet default icon
 import 'leaflet/dist/leaflet.css';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+// @ts-expect-error Leaflet 内部 _getIconUrl 未在类型声明中
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 interface HistoryMapProps {
   region?: Region;
