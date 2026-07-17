@@ -263,8 +263,14 @@ export default function HistoryMap({
     _onYearChange?.(newYear);
   }, [_onYearChange]);
 
-  const minYear = -800;
-  const maxYear = 2025;
+  const minYear = yearRange?.[0] ?? -800;
+  const maxYear = yearRange?.[1] ?? 2025;
+
+  // 快跳年份列表（按 yearRange 过滤）
+  const allJumpYears = [-753, -336, -27, 395, 476, 800, 962, 1096, 1453, 1492, 1789, 1815, 1871, 1914, 1939, 1993];
+  const jumpYears = yearRange
+    ? allJumpYears.filter(y => y >= yearRange[0] && y <= yearRange[1])
+    : allJumpYears;
 
   // 筛选条件变化时重建整个地图实例，彻底清除旧图层
   const mapKey = filteredGeoJsonKeys?.join(',') ?? 'all';
@@ -338,7 +344,7 @@ export default function HistoryMap({
 
         {/* Quick jump buttons */}
         <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-          {[-753, -336, -27, 395, 476, 800, 962, 1096, 1453, 1492, 1789, 1815, 1871, 1914, 1939, 1993].map(y => (
+          {jumpYears.map(y => (
             <button
               key={y}
               onClick={() => handleYearChange(y)}
