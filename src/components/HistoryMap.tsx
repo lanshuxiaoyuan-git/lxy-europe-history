@@ -245,27 +245,20 @@ function MapContent({
         ))}
 
       {/* Capital markers */}
-      {capitals && capitals.map(cap => (
+      {capitals && capitals.map(cap => {
+        const el = document.createElement('div');
+        el.className = 'capital-marker-inner';
+        el.textContent = '🏛️';
+        el.title = cap.nameZh;
+        return (
         <Marker
           key={`capital-${cap.name}`}
           position={[cap.coordinates[0], cap.coordinates[1]]}
           icon={L.divIcon({
             className: 'capital-marker',
-            html: `<div style="
-              background:#b45309;
-              color:white;
-              font-size:16px;
-              width:28px;height:28px;
-              border-radius:50%;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              border:3px solid #fbbf24;
-              box-shadow:0 2px 8px rgba(0,0,0,0.3);
-              cursor:pointer;
-            " title="${cap.nameZh}">🏛️</div>`,
-            iconSize: [28, 28],
-            iconAnchor: [14, 14],
+            html: el.outerHTML,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
           })}
         >
           <Popup>
@@ -275,7 +268,8 @@ function MapContent({
             </div>
           </Popup>
         </Marker>
-      ))}
+        );
+      })}
     </>
   );
 }
