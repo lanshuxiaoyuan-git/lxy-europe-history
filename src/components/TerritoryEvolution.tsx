@@ -11,6 +11,8 @@ interface TerritoryEvolutionProps {
   territoryEvolution: TerritoryEvolutionStage[];
   coordinates: [number, number];
   defaultZoom?: number;
+  /** 多都城标记列表（如罗马帝国的罗马、君士坦丁堡） */
+  extraCapitals?: { name: string; coords: [number, number] }[];
 }
 
 function MapContent({
@@ -19,12 +21,14 @@ function MapContent({
   zoom,
   capitalName,
   capitalCoords,
+  extraCapitals,
 }: {
   feature: GeoJsonFeature | null;
   center: [number, number];
   zoom: number;
   capitalName?: string;
   capitalCoords?: [number, number];
+  extraCapitals?: { name: string; coords: [number, number] }[];
 }) {
   const map = useMap();
 
@@ -59,6 +63,27 @@ function MapContent({
         </Marker>
       )}
 
+      {/* Extra capital markers (e.g. Roman Empire: Rome + Constantinople) */}
+      {extraCapitals && extraCapitals.map(cap => (
+        <Marker
+          key={`capital-${cap.name}`}
+          position={[cap.coords[0], cap.coords[1]]}
+          icon={L.divIcon({
+            className: 'capital-marker',
+            html: '<div class="capital-marker-inner">🏛️</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+          })}
+        >
+          <Popup>
+            <div style={{ fontFamily: 'Georgia, serif', minWidth: '120px' }}>
+              <h4 style={{ margin: '0 0 2px', color: '#78350f' }}>🏛️ {cap.name}</h4>
+              <p style={{ margin: '0', fontSize: '12px', color: '#78716c' }}>都城</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+
       <GeoJSON
         key={feature.properties.name}
         data={feature as never}
@@ -87,6 +112,7 @@ export default function TerritoryEvolution({
   territoryEvolution,
   coordinates,
   defaultZoom = 5,
+  extraCapitals,
 }: TerritoryEvolutionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -138,6 +164,7 @@ export default function TerritoryEvolution({
             zoom={defaultZoom}
             capitalName={name}
             capitalCoords={coordinates}
+            extraCapitals={extraCapitals}
           />
         </MapContainer>
 

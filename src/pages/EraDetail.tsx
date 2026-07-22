@@ -164,7 +164,14 @@ export default function EraDetail() {
           onYearChange={setYear}
           height="450px"
           yearRange={[era.startYear, era.endYear]}
-          capitals={eraEmpires.map(e => ({ name: e.capital, nameZh: `${e.nameZh}都城`, coordinates: e.coordinates }))}
+          capitals={eraEmpires.flatMap(e => {
+            const caps = [{ name: e.capital, nameZh: `${e.nameZh}都城`, coordinates: e.coordinates }];
+            // 罗马帝国额外标注君士坦丁堡
+            if (e.id === 'roman-empire') {
+              caps.push({ name: 'Constantinople', nameZh: '罗马帝国东部都城', coordinates: [41.008, 28.978] as [number, number] });
+            }
+            return caps;
+          })}
         />
       </motion.div>
 

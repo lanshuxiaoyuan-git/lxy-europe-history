@@ -162,6 +162,13 @@ export default function EmpireDetail() {
             name={empire.nameZh}
             territoryEvolution={empire.territoryEvolution}
             coordinates={empire.coordinates}
+            extraCapitals={
+              empire.id === 'roman-empire'
+                ? [
+                    { name: '君士坦丁堡', coords: [41.008, 28.978] as [number, number] },
+                  ]
+                : undefined
+            }
           />
         </motion.div>
       )}
