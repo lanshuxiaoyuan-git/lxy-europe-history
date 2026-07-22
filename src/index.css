@@ -1,0 +1,99 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-parchment: #faf6f0;
+  --color-parchment-dark: #1a1a2e;
+  --color-gold: #c9a84c;
+  --color-empire: #8b0000;
+  --color-byzantine: #9b30ff;
+  --color-roman: #b22222;
+  --color-greek: #0d47a1;
+  --color-frankish: #00695c;
+  --color-british: #c62828;
+  --color-french: #1565c0;
+  --color-holy-roman: #ff8f00;
+  --color-spanish: #ad1457;
+  --color-portuguese: #004d40;
+  --color-dutch: #e65100;
+  --color-italian: #2e7d32;
+  --color-china: #b71c1c;
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', 'Noto Serif SC', serif;
+  background: var(--color-parchment);
+  color: #2c1810;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  background: #e8e0d0 !important;
+}
+
+/* Smooth opacity transitions for historical GeoJSON layers */
+.leaflet-interactive {
+  transition: fill-opacity 0.4s ease, stroke-opacity 0.4s ease, stroke-width 0.3s ease;
+}
+
+/* Modern border tooltip styling */
+.modern-border-tooltip {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  font-size: 10px !important;
+  color: #6b7280 !important;
+  box-shadow: none !important;
+  padding: 2px 6px !important;
+}
+.modern-border-tooltip::before {
+  display: none !important;
+}
+
+/* Capital marker on map */
+.capital-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.capital-marker-inner {
+  background: #b45309;
+  color: white;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fbbf24;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f0ebe4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4a97d;
+  border-radius: 3px;
+}
+
+/* Timeline styles */
+.timeline-dot {
+  @apply w-3 h-3 rounded-full border-2 border-gold bg-parchment transition-all;
+}
+.timeline-dot.active {
+  @apply bg-gold scale-150;
+}
